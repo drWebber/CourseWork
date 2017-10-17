@@ -31,10 +31,9 @@ FacilityEditor::~FacilityEditor()
 void FacilityEditor::on_pbnExec_clicked()
 {
     QSqlQuery query;
-    query.prepare("SELECT * FROM `facility` WHERE type = :type AND capacity > :capacity");
+    query.prepare("SELECT * FROM `facility` WHERE `type` = :type AND `capacity` >= :capacity");
     query.bindValue(":type", ui->cbType->currentText());
     query.bindValue(":capacity", ui->sbCapacity->value());
+    query.exec();
     model->setQuery(query);
-    qDebug() << model->lastError();
-    qDebug() << model->query().lastQuery();
 }

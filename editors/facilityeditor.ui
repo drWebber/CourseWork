@@ -17,7 +17,11 @@
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="1">
-      <widget class="QSpinBox" name="sbCapacity"/>
+      <widget class="QSpinBox" name="sbCapacity">
+       <property name="maximum">
+        <number>99999</number>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0" colspan="2">
       <widget class="QLabel" name="label">
