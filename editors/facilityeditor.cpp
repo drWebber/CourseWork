@@ -11,7 +11,7 @@ FacilityEditor::FacilityEditor(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Спортивные сооружения");
-    QStringList typeList;
+    QStringList typeList = QStringList() << "Все";
     QSqlQuery q;
     q.exec("SELECT DISTINCT `type` FROM `facility`");
     while (q.next()) {
@@ -19,7 +19,10 @@ FacilityEditor::FacilityEditor(QWidget *parent) :
     }
     ui->cbType->addItems(typeList);
     model = new QSqlQueryModel(this);
+    model->setQuery("SELECT * FROM `facility`");
     ui->tableView->setModel(model);
+    ui->tableView->hideColumn(0);
+    resize(640, 480);
 }
 
 FacilityEditor::~FacilityEditor()
@@ -31,8 +34,13 @@ FacilityEditor::~FacilityEditor()
 void FacilityEditor::on_pbnExec_clicked()
 {
     QSqlQuery query;
-    query.prepare("SELECT * FROM `facility` WHERE `type` = :type AND `capacity` >= :capacity");
-    query.bindValue(":type", ui->cbType->currentText());
+    QString facility = ui->cbType->currentText();
+    if (facility == "Все") {
+        query.prepare("SELECT * FROM `facility` WHERE `capacity` > :capacity");
+    } else {
+        query.prepare("SELECT * FROM `facility` WHERE `type` = :type AND `capacity` > :capacity");
+        query.bindValue(":type", facility);
+    }
     query.bindValue(":capacity", ui->sbCapacity->value());
     query.exec();
     model->setQuery(query);

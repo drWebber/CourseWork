@@ -9,24 +9,42 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-   DBC dbc;
-   dbc.connect();
-   if (!dbc.isConnected()) {
+    DBC dbc;
+    dbc.connect();
+    if (!dbc.isConnected()) {
         QMessageBox::critical(this, "Ошибка", "Ошибка соединения с базой данных");
-   }
-   connect(ui->actFacilityEditor, SIGNAL(triggered(bool)),
-           this, SLOT(onFacilityEditorCreate()));
+    }
+    viewers = QStringList() << "actAthleteViewer";
+    connect(ui->actFacilityEditor, SIGNAL(triggered(bool)),
+            this, SLOT(onFacilityEditorCreate()));
+    connect(ui->actAthleteViewer, SIGNAL(triggered(bool)),
+            this, SLOT(onMenuTriggered()));
 }
 
 MainWindow::~MainWindow()
 {
     delete fe;
+    delete av;
     delete ui;
 }
 
 void MainWindow::onFacilityEditorCreate()
 {
-    qDebug() << "here";
     fe = new FacilityEditor();
     fe->show();
+}
+
+void MainWindow::onMenuTriggered()
+{
+    QString name = sender()->objectName();
+    int indx = viewers.indexOf(QRegExp(name));
+    if (indx < 0) return;
+    switch (indx) {
+    case ATHLETE_VIEWER:
+        av = new AthletesViewer();
+        av->show();
+        break;
+    default:
+        break;
+    }
 }
