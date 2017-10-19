@@ -33,7 +33,7 @@
     <property name="title">
      <string>Документы</string>
     </property>
-    <addaction name="actFacilityEditor"/>
+    <addaction name="actFacilityViewer"/>
     <addaction name="actAthleteViewer"/>
     <addaction name="action_4"/>
     <addaction name="action_5"/>
@@ -56,7 +56,7 @@
     <string>Выход</string>
    </property>
   </action>
-  <action name="actFacilityEditor">
+  <action name="actFacilityViewer">
    <property name="text">
     <string>Спортивные сооружения</string>
    </property>

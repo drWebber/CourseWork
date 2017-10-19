@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "editors/facilityeditor.h"
-#include "viewers/athletesviewer.h"
+#include "viewers/facilityviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,14 +16,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private slots:
-    void onFacilityEditorCreate();
     void onMenuTriggered();
 private:
     Ui::MainWindow *ui;
-    FacilityEditor *fe = NULL;
+    FacilityViewer *fv = NULL;
     QStringList viewers;
-    AthletesViewer *av = NULL;
-    enum VIEW_ID {ATHLETE_VIEWER};
+    enum VIEW_ID {FACILITY_VIEWER};
 };
 
 #endif // MAINWINDOW_H

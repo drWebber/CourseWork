@@ -16,16 +16,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     sql/dbc.cpp \
-    editors/facilityeditor.cpp \
-    viewers/abstractviewer.cpp \
-    viewers/athletesviewer.cpp
+    viewers/facilityviewer.cpp \
+    sql/sql.cpp \
+    editors/facilityeditor.cpp
 
 HEADERS  += mainwindow.h \
     sql/dbc.h \
-    editors/facilityeditor.h \
-    viewers/abstractviewer.h \
-    viewers/athletesviewer.h
+    viewers/facilityviewer.h \
+    sql/sql.h \
+    editors/facilityeditor.h
 
 FORMS    += mainwindow.ui \
     editors/facilityeditor.ui \
-    viewers/athletesviewer.ui
+    viewers/facilityviewer.ui
