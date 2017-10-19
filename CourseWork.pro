@@ -18,14 +18,17 @@ SOURCES += main.cpp\
     sql/dbc.cpp \
     viewers/facilityviewer.cpp \
     sql/sql.cpp \
-    editors/facilityeditor.cpp
+    editors/facilityeditor.cpp \
+    sportviewer.cpp
 
 HEADERS  += mainwindow.h \
     sql/dbc.h \
     viewers/facilityviewer.h \
     sql/sql.h \
-    editors/facilityeditor.h
+    editors/facilityeditor.h \
+    sportviewer.h
 
 FORMS    += mainwindow.ui \
     editors/facilityeditor.ui \
-    viewers/facilityviewer.ui
+    viewers/facilityviewer.ui \
+    sportviewer.ui

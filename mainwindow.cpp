@@ -3,6 +3,7 @@
 #include "sql/dbc.h"
 #include <qmessagebox.h>
 #include <qdebug.h>
+#include "sportviewer.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     viewers = QStringList() << "actFacilityViewer";
     connect(ui->actFacilityViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
+    SportViewer *sv = new SportViewer();
+    sv->show();
 }
 
 MainWindow::~MainWindow()
