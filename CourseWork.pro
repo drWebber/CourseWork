@@ -17,15 +17,20 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     sql/dbc.cpp \
     sql/sql.cpp \
-    viewers/facilityviewer.cpp
+    viewers/abstracttableview.cpp \
+    viewers/facilityviewer.cpp \
+    viewers/athleteviewer.cpp
 
 HEADERS  += mainwindow.h \
     sql/dbc.h \
     sql/sql.h \
-    viewers/facilityviewer.h
+    viewers/abstracttableview.h \
+    viewers/facilityviewer.h \
+    viewers/athleteviewer.h
 
 FORMS    += mainwindow.ui \
-    viewers/facilityviewer.ui
+    viewers/facilityviewer.ui \
+    viewers/athleteviewer.ui
 
 RESOURCES += \
     resource.qrc

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "viewers/facilityviewer.h"
+#include "viewers/athleteviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,8 +21,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     FacilityViewer *fv = NULL;
+    AthleteViewer *av = NULL;
     QStringList viewers;
-    enum VIEW_ID {FACILITY_VIEWER};
+    enum VIEW_ID {FACILITY_VIEWER, ATHLETE_VIEWER};
 };
 
 #endif // MAINWINDOW_H
