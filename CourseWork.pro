@@ -16,19 +16,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     sql/dbc.cpp \
-    viewers/facilityviewer.cpp \
     sql/sql.cpp \
-    editors/facilityeditor.cpp \
-    sportviewer.cpp
+    viewers/facilityviewer.cpp
 
 HEADERS  += mainwindow.h \
     sql/dbc.h \
-    viewers/facilityviewer.h \
     sql/sql.h \
-    editors/facilityeditor.h \
-    sportviewer.h
+    viewers/facilityviewer.h
 
 FORMS    += mainwindow.ui \
-    editors/facilityeditor.ui \
-    viewers/facilityviewer.ui \
-    sportviewer.ui
+    viewers/facilityviewer.ui
+
+RESOURCES += \
+    resource.qrc

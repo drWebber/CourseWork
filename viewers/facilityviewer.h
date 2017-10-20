@@ -2,7 +2,7 @@
 #define FACILITYVIEWER_H
 
 #include <QWidget>
-#include <qsqlquerymodel.h>
+#include <qsqltablemodel.h>
 
 namespace Ui {
 class FacilityViewer;
@@ -15,11 +15,15 @@ class FacilityViewer : public QWidget
 public:
     explicit FacilityViewer(QWidget *parent = 0);
     ~FacilityViewer();
-public slots:
-    void onFilterChanged();
+
+private slots:
+    void on_tbnAddRow_clicked();
+    void on_tbnDeleteRow_clicked();
+    void on_cbType_currentTextChanged(const QString &arg1);
+
 private:
     Ui::FacilityViewer *ui;
-    QSqlQueryModel *model;
+    QSqlTableModel *model;
 };
 
 #endif // FACILITYVIEWER_H
