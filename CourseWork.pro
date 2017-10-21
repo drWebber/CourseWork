@@ -19,18 +19,27 @@ SOURCES += main.cpp\
     sql/sql.cpp \
     viewers/abstracttableview.cpp \
     viewers/facilityviewer.cpp \
-    viewers/athleteviewer.cpp
+    viewers/athleteviewer.cpp \
+    viewers/sportviewer.cpp \
+    viewers/coachviewer.cpp \
+    viewers/careerviewer.cpp
 
 HEADERS  += mainwindow.h \
     sql/dbc.h \
     sql/sql.h \
     viewers/abstracttableview.h \
     viewers/facilityviewer.h \
-    viewers/athleteviewer.h
+    viewers/athleteviewer.h \
+    viewers/sportviewer.h \
+    viewers/coachviewer.h \
+    viewers/careerviewer.h
 
 FORMS    += mainwindow.ui \
     viewers/facilityviewer.ui \
-    viewers/athleteviewer.ui
+    viewers/athleteviewer.ui \
+    viewers/sportviewer.ui \
+    viewers/coachviewer.ui \
+    viewers/careerviewer.ui
 
 RESOURCES += \
     resource.qrc

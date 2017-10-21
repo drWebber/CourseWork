@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "viewers/facilityviewer.h"
 #include "viewers/athleteviewer.h"
+#include "viewers/sportviewer.h"
+#include "viewers/coachviewer.h"
+#include "viewers/careerviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,8 +25,11 @@ private:
     Ui::MainWindow *ui;
     FacilityViewer *fv = NULL;
     AthleteViewer *av = NULL;
+    SportViewer *sv = NULL;
+    CoachViewer *coachViewer = NULL;
+    CareerViewer *careerViewer = NULL;
     QStringList viewers;
-    enum VIEW_ID {FACILITY_VIEWER, ATHLETE_VIEWER};
+    enum VIEW_ID {FACILITY_VIEWER, ATHLETE_VIEWER, SPORT_VIEWER, COACH_VIEWER, CAREER_VIEWER};
 };
 
 #endif // MAINWINDOW_H

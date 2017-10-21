@@ -13,8 +13,12 @@ class AthleteViewer : public AbstractTableView
     Q_OBJECT
 
 public:
-    explicit AthleteViewer(QWidget *parent = 0);
+    explicit AthleteViewer(QString table, QList<int> *relColumns,
+                           QList<QSqlRelation *> *relations, QWidget *parent = 0);
     ~AthleteViewer();
+    enum COLUMNS {ID, FULL_NAME, DOB};
+private slots:
+    void filterChanged();
 private:
     Ui::AthleteViewer *ui;
 };

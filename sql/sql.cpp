@@ -19,3 +19,19 @@ QStringList Sql::getDistinctValues(QString table, QString column)
     }
     return values;
 }
+
+QString Sql::getValuesLine(QString query, QStringList valsToBind)
+{
+    QString condition;
+    QSqlQuery q;
+    q.prepare(query);
+    for (int i = 0; i < valsToBind.count(); ++i) {
+        q.bindValue(i, valsToBind.at(i));
+    }
+    q.exec();
+    while (q.next()) {
+         condition.append(q.value(0).toString() + ',');
+    }
+    condition.chop(1);
+    return condition;
+}

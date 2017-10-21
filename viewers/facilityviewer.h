@@ -14,9 +14,10 @@ class FacilityViewer : public AbstractTableView
     Q_OBJECT
 
 public:
-    explicit FacilityViewer(QWidget *parent = 0);
+    explicit FacilityViewer(QString table, QList<int> *relColumns,
+                            QList<QSqlRelation *> *relations, QWidget *parent = 0);
     ~FacilityViewer();
-
+    enum COLUMNS {ID, NAME, TYPE, ADDRESS, CAPACITY};
 private slots:
     void onFilterChanged();
 private:

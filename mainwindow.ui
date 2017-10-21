@@ -13,7 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -33,10 +35,11 @@
     <property name="title">
      <string>Документы</string>
     </property>
-    <addaction name="actFacilityViewer"/>
+    <addaction name="actSportViewer"/>
     <addaction name="actAthleteViewer"/>
-    <addaction name="action_4"/>
-    <addaction name="action_5"/>
+    <addaction name="actCoachViewer"/>
+    <addaction name="actCareerViewer"/>
+    <addaction name="actFacilityViewer"/>
     <addaction name="action_6"/>
    </widget>
    <addaction name="menu"/>
@@ -66,12 +69,12 @@
     <string>Спортсмены</string>
    </property>
   </action>
-  <action name="action_4">
+  <action name="actSportViewer">
    <property name="text">
     <string>Виды спорта</string>
    </property>
   </action>
-  <action name="action_5">
+  <action name="actCareerViewer">
    <property name="text">
     <string>Спортивная карьера</string>
    </property>
@@ -79,6 +82,11 @@
   <action name="action_6">
    <property name="text">
     <string>Соревнования</string>
+   </property>
+  </action>
+  <action name="actCoachViewer">
+   <property name="text">
+    <string>Тренеры</string>
    </property>
   </action>
  </widget>
