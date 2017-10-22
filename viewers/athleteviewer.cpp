@@ -17,7 +17,10 @@ AthleteViewer::AthleteViewer(QString table, QList<int> *relColumns,
     model->setHeaderData(DOB, Qt::Horizontal, "Дата рождения");
 
     ui->cbSportType->addItems(Sql::getDistinctValues("sport", "name"));
+    ui->cbCoach->addItems(Sql::getDistinctValues("coach", "full_name"));
     connect(ui->cbSportType, SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(filterChanged()));
+    connect(ui->cbCoach, SIGNAL(currentIndexChanged(QString)),
             this, SLOT(filterChanged()));
     connect(ui->sbCategory, SIGNAL(valueChanged(QString)),
             this, SLOT(filterChanged()));
@@ -33,12 +36,28 @@ void AthleteViewer::filterChanged()
     QString innerQuery, outerQuery;
     QStringList vals;
     QString sport = ui->cbSportType->currentText();
-    if (sport != "Все") {
-        innerQuery.append("SELECT `athleteID` FROM `career` WHERE `sportID` = (SELECT `id` FROM `sport` WHERE name = :sport) AND `category` >= :category");
-        vals = QStringList() << sport << ui->sbCategory->text();
+    QString coach = ui->cbCoach->currentText();
+    if (sport != "Все" && coach != "Все") {
+        innerQuery.append("SELECT `athleteID` FROM `career` "
+                          "WHERE `sportID` = (SELECT `id` FROM `sport` WHERE name = :sport) "
+                          "AND `category` >= :category "
+                          "AND `coachID` = (SELECT `id` FROM `coach` WHERE full_name = :coach)");
+        vals = QStringList() << sport << ui->sbCategory->text() << coach;
     } else {
-        innerQuery.append("SELECT `athleteID` FROM `career` WHERE `category` >= :category");
-        vals = QStringList() << ui->sbCategory->text();
+        if (sport != "Все") {
+            innerQuery.append("SELECT `athleteID` FROM `career` "
+                              "WHERE `sportID` = (SELECT `id` FROM `sport` WHERE name = :sport) "
+                              "AND `category` >= :category");
+            vals = QStringList() << sport << ui->sbCategory->text();
+        } else if (coach != "Все") {
+            innerQuery.append("SELECT `athleteID` FROM `career` "
+                              "WHERE `category` >= :category "
+                              "AND `coachID` = (SELECT `id` FROM `coach` WHERE full_name = :coach)");
+            vals = QStringList() << ui->sbCategory->text() << coach;
+        } else {
+            innerQuery.append("SELECT `athleteID` FROM `career` WHERE `category` >= :category");
+            vals = QStringList() << ui->sbCategory->text();
+        }
     }
     outerQuery.append(Sql::getValuesLine(innerQuery, vals));
     if (outerQuery.isEmpty()) {

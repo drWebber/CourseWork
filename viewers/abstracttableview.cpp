@@ -3,6 +3,8 @@
 #include <qdebug.h>
 #include <qheaderview.h>
 #include <QListIterator>
+#include <qsqlerror.h>
+#include <qmessagebox.h>
 
 AbstractTableView::AbstractTableView(QString table, QList<int> *relColumns,
                                      QList<QSqlRelation *> *relations, QWidget *parent) :
@@ -55,6 +57,10 @@ void AbstractTableView::onTbnAddRow_clicked()
 void AbstractTableView::onTbnRemoveRow_clicked()
 {
     model->removeRow(tableView->currentIndex().row());
+    QSqlError err = model->lastError();
+    if (err.number() == 1451) {
+        QMessageBox::warning(this, "Ошибка удаления записи", err.text());
+    }
     model->select();
 }
 
