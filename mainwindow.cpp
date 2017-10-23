@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     viewers = QStringList() << "actFacilityViewer" << "actAthleteViewer" << "actSportViewer"
-                            << "actCoachViewer" << "actCareerViewer";
+                            << "actCoachViewer" << "actCareerViewer" << "actCompetitionViewer"
+                            << "actPrizeViewer";
     connect(ui->actFacilityViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
     connect(ui->actAthleteViewer, SIGNAL(triggered(bool)),
@@ -34,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actCoachViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
     connect(ui->actCareerViewer, SIGNAL(triggered(bool)),
+            this, SLOT(onMenuTriggered()));
+    connect(ui->actCompetitionViewer, SIGNAL(triggered(bool)),
+            this, SLOT(onMenuTriggered()));
+    connect(ui->actPrizeViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
     resize(640, 480);
 }
@@ -94,6 +99,40 @@ void MainWindow::onMenuTriggered()
         careerViewer = new CareerViewer("career", columns, relations, ui->centralWidget);
         careerViewer->show();
         setWindowTitle("Журнал \"Карьера спортсмена\"");
+        delete columns;
+        delete relations;
+        break;
+    }
+    case COMPETITION_VIEWER:
+    {
+        QList<int> *columns = new QList<int>();
+        columns->append(CompetitionViewer::SPORT);
+        columns->append(CompetitionViewer::FACILITY);
+        QList<QSqlRelation*> *relations = new QList<QSqlRelation*>();
+        relations->append(new QSqlRelation("sport", "id", "name"));
+        relations->append(new QSqlRelation("facility", "id", "name"));
+        competitionViewer = new CompetitionViewer("competition", columns, relations, ui->centralWidget);
+        competitionViewer->show();
+        setWindowTitle("Журнал \"Соревнования\"");
+        delete columns;
+        delete relations;
+        break;
+    }
+    case PRIZE_VIEWER:
+    {
+        QList<int> *columns = new QList<int>();
+        columns->append(PrizeViewer::COMPETITION);
+        columns->append(PrizeViewer::GOLD_MEDAL_ATH);
+        columns->append(PrizeViewer::SILVER_MEDAL_ATH);
+        columns->append(PrizeViewer::BRONZE_MEDAL_ATH);
+        QList<QSqlRelation*> *relations = new QList<QSqlRelation*>();
+        relations->append(new QSqlRelation("competition", "id", "name"));
+        relations->append(new QSqlRelation("athlete", "id", "full_name"));
+        relations->append(new QSqlRelation("athlete", "id", "full_name"));
+        relations->append(new QSqlRelation("athlete", "id", "full_name"));
+        pv = new PrizeViewer("prize", columns, relations, ui->centralWidget);
+        pv->show();
+        setWindowTitle("Журнал \"Призеры соревнований\"");
         delete columns;
         delete relations;
         break;

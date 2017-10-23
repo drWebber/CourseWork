@@ -40,7 +40,8 @@
     <addaction name="actCoachViewer"/>
     <addaction name="actCareerViewer"/>
     <addaction name="actFacilityViewer"/>
-    <addaction name="action_6"/>
+    <addaction name="actCompetitionViewer"/>
+    <addaction name="actPrizeViewer"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -79,7 +80,7 @@
     <string>Спортивная карьера</string>
    </property>
   </action>
-  <action name="action_6">
+  <action name="actCompetitionViewer">
    <property name="text">
     <string>Соревнования</string>
    </property>
@@ -87,6 +88,11 @@
   <action name="actCoachViewer">
    <property name="text">
     <string>Тренеры</string>
+   </property>
+  </action>
+  <action name="actPrizeViewer">
+   <property name="text">
+    <string>Победители соревнований</string>
    </property>
   </action>
  </widget>

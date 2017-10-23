@@ -42,7 +42,6 @@ CREATE TABLE `competition` (
   `id` int(10) UNSIGNED NOT NULL,
   `date` date NOT NULL,
   `name` varchar(255) NOT NULL,
-  `athleteID` int(11) UNSIGNED NOT NULL,
   `sportID` int(11) UNSIGNED NOT NULL,
   `facilityID` int(11) UNSIGNED NOT NULL,
   `sponsor` varchar(255) DEFAULT NULL
@@ -81,6 +80,13 @@ CREATE TABLE `career` (
   `coachID` int(11) UNSIGNED NOT NULL,
   `clubID` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Структура таблицы `participation`
+CREATE TABLE `participation` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `athleteID` int(10) UNSIGNED NOT NULL,
+  `competitionID` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 -- Индексы таблицы `athlete`
@@ -115,7 +121,9 @@ ALTER TABLE `coach`
 
 -- Индексы таблицы `competition`
 ALTER TABLE `competition`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_competition_sport` (`sportID`),
+  ADD KEY `FK_competition_facility` (`facilityID`);
 
 -- Индексы таблицы `facility`
 ALTER TABLE `facility`
@@ -123,11 +131,21 @@ ALTER TABLE `facility`
 
 -- Индексы таблицы `prize`
 ALTER TABLE `prize`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_prize_competitionID` (`competitionID`),
+  ADD KEY `FK_prize_athleteG` (`goldMedalAthleteID`),
+  ADD KEY `FK_prize_athleteS` (`silverMedalAthleteID`),
+  ADD KEY `FK_prize_athleteB` (`bronzeMedalAthleteID`);
 
 -- Индексы таблицы `sport`
 ALTER TABLE `sport`
   ADD PRIMARY KEY (`id`);
+  
+-- Индексы таблицы `participation`
+ALTER TABLE `participation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_participation_athlete` (`athleteID`),
+  ADD KEY `FK_participation_competition` (`competitionID`);
 -- --------------------------------------------------------
 
 -- AUTO_INCREMENT для таблицы `athlete`
@@ -165,6 +183,10 @@ ALTER TABLE `prize`
 -- AUTO_INCREMENT для таблицы `sport`
 ALTER TABLE `sport`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+  -- AUTO_INCREMENT для таблицы `competition`
+ALTER TABLE `competition`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 -- --------------------------------------------------------
 
 -- Ограничения внешнего ключа таблицы `career`
@@ -192,6 +214,31 @@ ALTER TABLE `club_competition`
 	ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_clubCompetition_facility` FOREIGN KEY (`facilityID`) REFERENCES `facility` (`id`) 
 	ON DELETE RESTRICT ON UPDATE CASCADE;  
+	
+-- Ограничения внешнего ключа таблицы `club_competition`
+ALTER TABLE `participation`
+  ADD CONSTRAINT `FK_participation_athlete` FOREIGN KEY (`athleteID`) REFERENCES `athlete` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_participation_competition` FOREIGN KEY (`competitionID`) REFERENCES `competition` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE; 
+
+-- Ограничения внешнего ключа таблицы `competition`
+ALTER TABLE `competition`
+  ADD CONSTRAINT `FK_competition_sport` FOREIGN KEY (`sportID`) REFERENCES `sport` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_competition_facility` FOREIGN KEY (`facilityID`) REFERENCES `facility` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE; 
+	
+-- Ограничения внешнего ключа таблицы `prize`
+ALTER TABLE `prize`
+  ADD CONSTRAINT `FK_prize_competitionID` FOREIGN KEY (`competitionID`) REFERENCES `competition` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_prize_athleteG` FOREIGN KEY (`goldMedalAthleteID`) REFERENCES `athlete` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_prize_athleteS` FOREIGN KEY (`silverMedalAthleteID`) REFERENCES `athlete` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_prize_athleteB` FOREIGN KEY (`bronzeMedalAthleteID`) REFERENCES `athlete` (`id`) 
+	ON DELETE RESTRICT ON UPDATE CASCADE;
 -- --------------------------------------------------------
 
 
@@ -211,7 +258,9 @@ INSERT INTO `facility` (`id`, `name`, `type`, `address`, `capacity`) VALUES
 -- Дамп данных таблицы `sport`
 INSERT INTO `sport` (`id`, `name`) VALUES
 (1, 'Футбол'),
-(5, 'Бильярд');
+(5, 'Бильярд'),
+(6, 'Хоккей'),
+(7, 'Теннис');
 
 -- Дамп данных таблицы `coach`
 INSERT INTO `coach` (`id`, `full_name`, `sportID`) VALUES
@@ -223,4 +272,11 @@ INSERT INTO `coach` (`id`, `full_name`, `sportID`) VALUES
 INSERT INTO `career` (`id`, `athleteID`, `sportID`, `category`, `coachID`, `clubID`) VALUES
 (1, 1, 1, 1, 2, NULL),
 (2, 2, 5, 2, 1, NULL),
-(3, 3, 1, 1, 3, NULL);
+(3, 3, 1, 1, 3, NULL),
+(8, 1, 5, 1, 1, NULL),
+(9, 3, 7, 3, 1, NULL);
+
+-- Дамп данных таблицы `competition`
+INSERT INTO `competition` (`id`, `date`, `name`, `sportID`, `facilityID`, `sponsor`) VALUES
+(1, '2000-01-01', 'Золотая осень 2000', 1, 1, 'ОАО \"Витязь\"'),
+(2, '1999-01-01', 'Золотая осень 1999', 1, 1, NULL);
