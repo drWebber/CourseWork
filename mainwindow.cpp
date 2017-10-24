@@ -179,6 +179,21 @@ void MainWindow::onMenuTriggered()
         delete relations;
         break;
     }
+    case PARTICIPATION_VIEWER:
+    {
+        QList<int> *columns = new QList<int>();
+        columns->append(ParticipationViewer::ATHLETE);
+        columns->append(ParticipationViewer::COMPETITION);
+        QList<QSqlRelation*> *relations = new QList<QSqlRelation*>();
+        relations->append(new QSqlRelation("athlete", "id", "full_name"));
+        relations->append(new QSqlRelation("competition", "id", "name"));
+        pcv = new ParticipationViewer("participation", columns, relations, ui->centralWidget);
+        pcv->show();
+        setWindowTitle("Журнал \"Участие в соревнованиях\"");
+        delete columns;
+        delete relations;
+        break;
+    }
     default:
         break;
     }

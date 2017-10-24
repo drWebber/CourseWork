@@ -37,10 +37,10 @@ private:
     PrizeViewer *pv = NULL;
     ClubViewer *clubViewer = NULL;
     ClubCompletitonViewer *cm = NULL;
-    ParticipationViewer *pcv = HERE
+    ParticipationViewer *pcv = NULL;
     QStringList viewers;
     enum VIEW_ID {FACILITY_VIEWER, ATHLETE_VIEWER, SPORT_VIEWER, COACH_VIEWER, CAREER_VIEWER,
-                 COMPETITION_VIEWER, PRIZE_VIEWER, CLUB_VIEWER, CLUB_CMP_VIEWER};
+                 COMPETITION_VIEWER, PRIZE_VIEWER, CLUB_VIEWER, CLUB_CMP_VIEWER, PARTICIPATION_VIEWER};
 };
 
 #endif // MAINWINDOW_H

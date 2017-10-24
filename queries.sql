@@ -217,4 +217,18 @@ ON sport.id = ic.sID
 ------------------------------------------------------------------------
 -- q11
 ------------------------------------------------------------------------
-SELECT `
+SELECT *
+FROM `athlete`
+WHERE `id` IN(
+	SELECT `id`
+	FROM `athlete`
+	WHERE `id` NOT IN (
+		SELECT DISTINCT `athleteID`
+		FROM `participation`
+		WHERE `competitionID` IN(
+			SELECT `id`
+			FROM `competition`
+			WHERE `date` >= '1995-02-04' AND `date` <= '2018-02-04'
+		)
+	)
+)
