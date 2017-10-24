@@ -15,14 +15,13 @@ CREATE TABLE `athlete` (
 CREATE TABLE `club` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `sportID` int(11) UNSIGNED NOT NULL
+  `sportID` int(11) UNSIGNED
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Структура таблицы `club_competition`
 CREATE TABLE `club_competition` (
   `id` int(10) UNSIGNED NOT NULL,
   `date` date NOT NULL,
-  `name` varchar(255) NOT NULL,
   `homeClubID` int(11) UNSIGNED NOT NULL,
   `awayClubID` int(11) UNSIGNED NOT NULL,
   `sportID` int(11) UNSIGNED NOT NULL,
@@ -78,7 +77,7 @@ CREATE TABLE `career` (
   `sportID` int(11) UNSIGNED NOT NULL,
   `category` int(11) UNSIGNED NOT NULL,
   `coachID` int(11) UNSIGNED NOT NULL,
-  `clubID` int(11) UNSIGNED DEFAULT NULL
+  `clubID` int(11) UNSIGNED DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Структура таблицы `participation`
@@ -246,7 +245,16 @@ ALTER TABLE `prize`
 INSERT INTO `athlete` (`id`, `full_name`, `DOB`) VALUES
 (1, 'Васильев Василий Васильевич', '1984-01-04'),
 (2, 'Семенов Станислав Петрович', '2000-01-01'),
-(3, 'Васин Василий Васильевич', '1989-01-01');
+(3, 'Васин Василий Васильевич', '1989-01-01'),
+(4, 'Алексей Мохнач', '2002-03-03'),
+(5, 'Антон Шунто', '1993-12-07'),
+(6, 'Евгений Костюкевич', '1989-12-09'),
+(7, 'Павел Волчецкий', '1997-12-16'),
+(8, 'Александр Варванин', '1991-01-01'),
+(9, 'Александр Скшинецкий', '2000-01-07'),
+(10, 'Алексей Василевский', '1995-09-09'),
+(11, 'Артем Челядинский', '1993-07-06'),
+(12, 'Богдан Рудюк', '1990-08-21');
 
 -- Дамп данных таблицы `facility`
 INSERT INTO `facility` (`id`, `name`, `type`, `address`, `capacity`) VALUES
@@ -260,23 +268,45 @@ INSERT INTO `sport` (`id`, `name`) VALUES
 (1, 'Футбол'),
 (5, 'Бильярд'),
 (6, 'Хоккей'),
-(7, 'Теннис');
+(7, 'Теннис'),
+(9, 'Акробатика'),
+(10, 'Велоспорт');
 
 -- Дамп данных таблицы `coach`
 INSERT INTO `coach` (`id`, `full_name`, `sportID`) VALUES
 (1, 'Степанов Семен Петрович', 1),
 (2, 'Шевченко Семен Петрович', 5),
-(3, 'Стасенко Валерий Сергеевич', 1);
-
--- Дамп данных таблицы `career`
-INSERT INTO `career` (`id`, `athleteID`, `sportID`, `category`, `coachID`, `clubID`) VALUES
-(1, 1, 1, 1, 2, NULL),
-(2, 2, 5, 2, 1, NULL),
-(3, 3, 1, 1, 3, NULL),
-(8, 1, 5, 1, 1, NULL),
-(9, 3, 7, 3, 1, NULL);
+(3, 'Стасенко Валерий Сергеевич', 1),
+(5, 'Алексей Кучук', 6);
 
 -- Дамп данных таблицы `competition`
 INSERT INTO `competition` (`id`, `date`, `name`, `sportID`, `facilityID`, `sponsor`) VALUES
-(1, '2000-01-01', 'Золотая осень 2000', 1, 1, 'ОАО \"Витязь\"'),
-(2, '1999-01-01', 'Золотая осень 1999', 1, 1, NULL);
+(1, '2000-01-01', 'Золотая осень 2000', 7, 1, 'ОАО "Витязь"'),
+(2, '1999-01-01', 'Золотой шар', 5, 2, 'ОАО "Витебск Водоканал"'),
+(3, '2001-06-04', 'Первенство по акробатике', 9, 4, 'УО "ВГУ" им. П. М. Машерова'),
+(4, '2000-05-11', 'Мир труд май', 9, 4, 'ОАО "Нафтан"'),
+(5, '2000-06-02', 'Восьмерка', 10, 2, 'ОАО "Витавтоматика"');
+
+INSERT INTO `club` (`id`, `name`, `sportID`) VALUES
+(1, 'Динамо', 6),
+(2, 'Трактор', 6),
+(3, 'Юность', 6),
+(4, 'Крумкачи', 6),
+(5, 'Нет', NULL);
+
+-- Дамп данных таблицы `career`
+INSERT INTO `career` (`id`, `athleteID`, `sportID`, `category`, `coachID`, `clubID`) VALUES
+(1, 1, 1, 1, 2, 5),
+(2, 2, 5, 2, 1, 5),
+(3, 3, 1, 1, 3, 5),
+(8, 1, 5, 1, 1, 5),
+(9, 3, 7, 3, 1, 5),
+(11, 4, 6, 1, 5, 5),
+(12, 5, 6, 1, 5, 5),
+(13, 6, 6, 1, 5, 5),
+(14, 7, 6, 1, 5, 5),
+(15, 8, 6, 1, 5, 5);
+
+INSERT INTO `prize` (`id`, `competitionID`, `goldMedalAthleteID`, `silverMedalAthleteID`, `bronzeMedalAthleteID`) VALUES
+(1, 1, 1, 2, 3),
+(2, 2, 3, 2, 1);

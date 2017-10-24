@@ -42,6 +42,9 @@
     <addaction name="actFacilityViewer"/>
     <addaction name="actCompetitionViewer"/>
     <addaction name="actPrizeViewer"/>
+    <addaction name="actClubViewer"/>
+    <addaction name="actClubCompetitionViewer"/>
+    <addaction name="actParticipationViewer"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -93,6 +96,21 @@
   <action name="actPrizeViewer">
    <property name="text">
     <string>Победители соревнований</string>
+   </property>
+  </action>
+  <action name="actClubViewer">
+   <property name="text">
+    <string>Спортивные клубы</string>
+   </property>
+  </action>
+  <action name="actClubCompetitionViewer">
+   <property name="text">
+    <string>Клубные соревнования</string>
+   </property>
+  </action>
+  <action name="actParticipationViewer">
+   <property name="text">
+    <string>Участие в соревнованиях</string>
    </property>
   </action>
  </widget>

@@ -25,7 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     viewers = QStringList() << "actFacilityViewer" << "actAthleteViewer" << "actSportViewer"
                             << "actCoachViewer" << "actCareerViewer" << "actCompetitionViewer"
-                            << "actPrizeViewer";
+                            << "actPrizeViewer" << "actClubViewer" << "actClubCompetitionViewer"
+                            << "actParticipationViewer";
+
     connect(ui->actFacilityViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
     connect(ui->actAthleteViewer, SIGNAL(triggered(bool)),
@@ -39,6 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actCompetitionViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
     connect(ui->actPrizeViewer, SIGNAL(triggered(bool)),
+            this, SLOT(onMenuTriggered()));
+    connect(ui->actClubViewer, SIGNAL(triggered(bool)),
+            this, SLOT(onMenuTriggered()));
+    connect(ui->actClubCompetitionViewer, SIGNAL(triggered(bool)),
+            this, SLOT(onMenuTriggered()));
+    connect(ui->actParticipationViewer, SIGNAL(triggered(bool)),
             this, SLOT(onMenuTriggered()));
     resize(640, 480);
 }
@@ -92,10 +100,12 @@ void MainWindow::onMenuTriggered()
         columns->append(CareerViewer::ATHLETE);
         columns->append(CareerViewer::SPORT);
         columns->append(CareerViewer::COACH);
+        columns->append(CareerViewer::CLUB);
         QList<QSqlRelation*> *relations = new QList<QSqlRelation*>();
         relations->append(new QSqlRelation("athlete", "id", "full_name"));
         relations->append(new QSqlRelation("sport", "id", "name"));
         relations->append(new QSqlRelation("coach", "id", "full_name"));
+        relations->append(new QSqlRelation("club", "id", "name"));
         careerViewer = new CareerViewer("career", columns, relations, ui->centralWidget);
         careerViewer->show();
         setWindowTitle("Журнал \"Карьера спортсмена\"");
@@ -133,6 +143,38 @@ void MainWindow::onMenuTriggered()
         pv = new PrizeViewer("prize", columns, relations, ui->centralWidget);
         pv->show();
         setWindowTitle("Журнал \"Призеры соревнований\"");
+        delete columns;
+        delete relations;
+        break;
+    }
+    case CLUB_VIEWER:
+    {
+        QList<int> *columns = new QList<int>();
+        columns->append(ClubViewer::SPORT);
+        QList<QSqlRelation*> *relations = new QList<QSqlRelation*>();
+        relations->append(new QSqlRelation("sport", "id", "name"));
+        clubViewer = new ClubViewer("club", columns, relations, ui->centralWidget);
+        clubViewer->show();
+        setWindowTitle("Журнал \"Спортивные клубы\"");
+        delete columns;
+        delete relations;
+        break;
+    }
+    case CLUB_CMP_VIEWER:
+    {
+        QList<int> *columns = new QList<int>();
+        columns->append(ClubCompletitonViewer::HOME_CLUB);
+        columns->append(ClubCompletitonViewer::AWAY_CLUB);
+        columns->append(ClubCompletitonViewer::SPORT);
+        columns->append(ClubCompletitonViewer::FACILITY);
+        QList<QSqlRelation*> *relations = new QList<QSqlRelation*>();
+        relations->append(new QSqlRelation("club", "id", "name"));
+        relations->append(new QSqlRelation("club", "id", "name"));
+        relations->append(new QSqlRelation("sport", "id", "name"));
+        relations->append(new QSqlRelation("facility", "id", "name"));
+        cm = new ClubCompletitonViewer("club_competition", columns, relations, ui->centralWidget);
+        cm->show();
+        setWindowTitle("Журнал \"Клубные соревнования\"");
         delete columns;
         delete relations;
         break;

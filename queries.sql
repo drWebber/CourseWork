@@ -110,7 +110,7 @@ SELECT *
 FROM `competition`
 WHERE `date` >= '1998-02-04' AND `date` <= '2000-02-05' AND `sponsor` = 'ОАО \"Витязь\"';
 ------------------------------------------------------------------------
--- q7 ОШИБКА НА КАКОМ ЭТАПЕ НЕВЕРНЫЕ ИД?
+-- q7
 ------------------------------------------------------------------------
 SELECT spz.gpzG, spz.gpzS, bAth.full_name
 FROM `athlete` AS bAth 
@@ -118,7 +118,7 @@ INNER JOIN
 	(SELECT gpz.gName AS gpzG, sAth.full_name AS gpzS, gpz.bID AS gpzB
 	 FROM `athlete` AS sAth 
 	 INNER JOIN
-		(SELECT gAth.full_name AS gName, pz.silver AS sID, pz.gold AS bID
+		(SELECT gAth.full_name AS gName, pz.silver AS sID, pz.bronze AS bID
 		 FROM `athlete` AS gAth
 		 INNER JOIN 
 			(SELECT `goldMedalAthleteID` AS gold, `silverMedalAthleteID` AS silver, `bronzeMedalAthleteID` AS bronze
@@ -131,3 +131,90 @@ INNER JOIN
 		 ON pz.gold = gAth.id) AS gpz
 	ON gpz.sID = sAth.id) AS spz
 ON spz.gpzB = bAth.id
+------------------------------------------------------------------------
+-- q8
+------------------------------------------------------------------------
+SELECT aDate, aName, spName, facility.name
+FROM `facility`
+INNER JOIN (
+	SELECT `date` AS aDate, cName AS aName, sport.name AS spName, fID
+	FROM `sport`
+	INNER JOIN (
+		SELECT `date`, `name` AS cName, `sportID` AS sID, `facilityID` AS fID
+		FROM `competition`
+		WHERE `facilityID` = (
+			SELECT `id`
+			FROM `facility`
+			WHERE `name` = "Витебский ЦСК" AND `sportID` = (
+				SELECT `id`
+				FROM `sport`
+				WHERE `name` = "Бильярд"
+			)
+		)
+	) AS cmp
+	ON sport.id = cmp.sID
+) AS dCmp
+ON facility.id = dCmp.fID
+------------------------------------------------------------------------
+-- q9
+------------------------------------------------------------------------
+-- Получаем список ИД клубов, подходящих по условиям
+SELECT `homeClubID` AS cID
+FROM `club_competition`
+WHERE `date` >= '1998-02-04' AND `date` <= '2008-02-04'
+UNION
+SELECT `awayClubID`
+FROM `club_competition`
+WHERE `date` >= '1998-02-04' AND `date` <= '2008-02-04'
+
+-- Получаем список ИД клубов, с кол-вом игроков
+SELECT `clubID`, COUNT(`athleteID`)
+FROM `career`
+WHERE `clubID` IN(
+	SELECT `homeClubID` AS cID
+	FROM `club_competition`
+	WHERE `date` >= '1998-02-04' AND `date` <= '2008-02-04'
+	UNION
+	SELECT `awayClubID`
+	FROM `club_competition`
+	WHERE `date` >= '1998-02-04' AND `date` <= '2008-02-04'
+)
+GROUP BY `clubID`
+
+-- Заменяем ИД на названия клубов
+SELECT `name`, icb.cn
+FROM `club`
+INNER JOIN(
+	SELECT `clubID` AS cID, COUNT(`athleteID`) AS cn
+	FROM `career`
+	WHERE `clubID` IN(
+		SELECT `homeClubID` AS cID
+		FROM `club_competition`
+		WHERE `date` >= '1998-02-04' AND `date` <= '2008-02-04'
+		UNION
+		SELECT `awayClubID`
+		FROM `club_competition`
+		WHERE `date` >= '1998-02-04' AND `date` <= '2008-02-04'
+		)
+		GROUP BY `clubID`
+) AS icb
+ON club.id = icb.cID
+------------------------------------------------------------------------
+-- q10
+------------------------------------------------------------------------
+SELECT ic.fn, `name` 
+FROM `sport`
+INNER JOIN (
+	SELECT `full_name` AS fn, `sportID` AS sID
+	FROM `coach`
+	WHERE `sportID` = (
+		SELECT `id`
+		FROM `sport`
+		WHERE `name` = "Футбол"
+	)
+) AS ic
+ON sport.id = ic.sID
+------------------------------------------------------------------------
+-- q11
+------------------------------------------------------------------------
+SELECT `

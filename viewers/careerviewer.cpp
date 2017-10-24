@@ -1,5 +1,6 @@
 #include "careerviewer.h"
 #include "ui_careerviewer.h"
+#include "sql/sql.h"
 
 CareerViewer::CareerViewer(QString table, QList<int> *relColumns,
                            QList<QSqlRelation *> *relations, QWidget *parent) :
@@ -13,9 +14,25 @@ CareerViewer::CareerViewer(QString table, QList<int> *relColumns,
     model->setHeaderData(CATEGORY, Qt::Horizontal, "Разряд");
     model->setHeaderData(COACH, Qt::Horizontal, "Тренер");
     model->setHeaderData(CLUB, Qt::Horizontal, "Клуб");
+    connect(ui->cbMultiSport, SIGNAL(stateChanged(int)),
+            this, SLOT(onFilterChanged()));
 }
 
 CareerViewer::~CareerViewer()
 {
     delete ui;
+}
+
+void CareerViewer::onFilterChanged()
+{
+    if (ui->cbMultiSport->isChecked()) {
+        QString q("SELECT `athleteID`"
+                  "FROM `career`"
+                  "GROUP BY `athleteID`"
+                  "HAVING COUNT(`athleteID`) > 1");
+        QString idLine = Sql::getValuesLine(q, QStringList());
+        model->setFilter(QString("`athleteID` IN(%1)").arg(idLine));
+    } else {
+        model->setFilter("");
+    }
 }

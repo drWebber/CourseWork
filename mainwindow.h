@@ -9,6 +9,9 @@
 #include "viewers/careerviewer.h"
 #include "viewers/competitionviewer.h"
 #include "viewers/prizeviewer.h"
+#include "viewers/clubviewer.h"
+#include "viewers/clubcompletitonviewer.h"
+#include "viewers/participationviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,9 +35,12 @@ private:
     CareerViewer *careerViewer = NULL;
     CompetitionViewer *competitionViewer = NULL;
     PrizeViewer *pv = NULL;
+    ClubViewer *clubViewer = NULL;
+    ClubCompletitonViewer *cm = NULL;
+    ParticipationViewer *pcv = HERE
     QStringList viewers;
     enum VIEW_ID {FACILITY_VIEWER, ATHLETE_VIEWER, SPORT_VIEWER, COACH_VIEWER, CAREER_VIEWER,
-                 COMPETITION_VIEWER, PRIZE_VIEWER};
+                 COMPETITION_VIEWER, PRIZE_VIEWER, CLUB_VIEWER, CLUB_CMP_VIEWER};
 };
 
 #endif // MAINWINDOW_H
