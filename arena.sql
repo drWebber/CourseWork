@@ -244,6 +244,25 @@ ALTER TABLE `prize`
 	ON DELETE RESTRICT ON UPDATE CASCADE;
 -- --------------------------------------------------------
 
+-- Триггеры `career`
+DELIMITER $$
+CREATE TRIGGER `before_insert_coachID`
+BEFORE INSERT ON `career`
+FOR EACH ROW IF NEW.coachID NOT IN(SELECT `id` FROM `coach` WHERE `sportID` = NEW.sportID) THEN 
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=30000;
+END IF
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `before_update_coachID`
+BEFORE UPDATE ON `career`
+FOR EACH ROW
+IF NEW.coachID NOT IN(SELECT `id` FROM `coach` WHERE `sportID` = NEW.sportID) THEN 
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=30001;
+END IF
+$$
+DELIMITER ;
 
 -- Дамп данных таблицы `athlete`
 INSERT INTO `athlete` (`id`, `full_name`, `DOB`) VALUES
@@ -284,7 +303,8 @@ INSERT INTO `coach` (`id`, `full_name`, `sportID`) VALUES
 (2, 'Шевченко Семен Петрович', 5),
 (3, 'Стасенко Валерий Сергеевич', 1),
 (5, 'Алексей Кучук', 6),
-(6, 'Сергей Гуренко', 6);
+(6, 'Сергей Гуренко', 6),
+(7, 'Алексей Кучук', 7);
 
 -- Дамп данных таблицы `competition`
 INSERT INTO `competition` (`id`, `date`, `name`, `sportID`, `facilityID`, `sponsor`) VALUES
@@ -294,7 +314,9 @@ INSERT INTO `competition` (`id`, `date`, `name`, `sportID`, `facilityID`, `spons
 (4, '2000-05-11', 'Мир труд май', 9, 4, 'ОАО \"Нафтан\"'),
 (5, '2000-06-02', 'Восьмерка', 10, 2, 'ОАО \"Витавтоматика\"'),
 (7, '2007-04-30', 'Весна 2007', 7, 1, 'ОАО \"Нафтан\"'),
-(8, '2008-03-17', 'Большой шлем', 7, 2, 'ОАО \"Витебск Водоканал\"');
+(8, '2008-03-17', 'Большой шлем', 7, 2, 'ОАО \"Витебск Водоканал\"'),
+(9, '2003-01-01', 'Большой шлем 2003', 7, 3, 'ОАО \"Витязь\"'),
+(13, '2007-01-01', 'Tour de France', 10, 4, 'ОАО \"Витебск Водоканал\"');
 
 INSERT INTO `club` (`id`, `name`, `sportID`) VALUES
 (1, 'Динамо', 6),
@@ -305,11 +327,9 @@ INSERT INTO `club` (`id`, `name`, `sportID`) VALUES
 
 -- Дамп данных таблицы `career`
 INSERT INTO `career` (`id`, `athleteID`, `sportID`, `category`, `coachID`, `clubID`) VALUES
-(1, 1, 1, 1, 2, 5),
-(2, 2, 5, 2, 1, 5),
-(3, 3, 1, 1, 3, 5),
-(8, 1, 5, 1, 1, 5),
-(9, 3, 7, 3, 3, 5),
+(3, 3, 5, 1, 2, 5),
+(8, 1, 1, 1, 1, 5),
+(9, 3, 7, 3, 7, 5),
 (11, 4, 6, 1, 5, 4),
 (12, 5, 6, 1, 5, 4),
 (13, 6, 6, 1, 5, 4),
@@ -321,8 +341,9 @@ INSERT INTO `career` (`id`, `athleteID`, `sportID`, `category`, `coachID`, `club
 (19, 12, 6, 2, 6, 1),
 (20, 13, 6, 1, 6, 1),
 (21, 14, 6, 2, 6, 1),
-(22, 4, 7, 3, 3, 5),
-(23, 5, 7, 3, 3, 5);
+(22, 4, 7, 3, 7, 5),
+(23, 5, 7, 3, 7, 5),
+(24, 1, 1, 1, 3, 5);
 
 -- Дамп данных таблицы `prize`
 INSERT INTO `prize` (`id`, `competitionID`, `goldMedalAthleteID`, `silverMedalAthleteID`, `bronzeMedalAthleteID`) VALUES

@@ -19,6 +19,7 @@ public:
     enum COLUMNS{ID, ATHLETE, SPORT, CATEGORY, COACH, CLUB};
 public slots:
     void onFilterChanged();
+    void onDataChanged();
 private:
     Ui::CareerViewer *ui;
 };

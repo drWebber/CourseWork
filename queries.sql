@@ -16,8 +16,8 @@ WHERE `id` IN (
 	 WHERE `sportID` = 
 		(SELECT `id`
 		 FROM `sport`
-		 WHERE `name` = "Футбол")
-	 AND `category` > 0
+		 WHERE `name` = "Хоккей")
+	 AND `category` > 1
 	)
 )
 
@@ -32,7 +32,7 @@ WHERE `id` IN (
 	WHERE `coachID` = 
 		(SELECT `id`
 		 FROM `coach`
-		 WHERE full_name = "Степанов Семен Петрович")
+		 WHERE full_name = "Сергей Гуренко")
 	AND `category` > 0		
 ) 
 ------------------------------------------------------------------------
@@ -92,7 +92,7 @@ ORDER BY athCr.aName ASC
 ------------------------------------------------------------------------
 -- q5
 ------------------------------------------------------------------------
-SELECT *
+SELECT `full_name`
 FROM `coach`
 WHERE `id` IN (
 	SELECT `coachID`
@@ -232,3 +232,45 @@ WHERE `id` IN(
 		)
 	)
 )
+------------------------------------------------------------------------
+-- q12
+------------------------------------------------------------------------
+SELECT `sponsor`, COUNT(id)
+FROM `competition`
+WHERE `date` >= '2000-02-04'
+GROUP BY `sponsor`
+------------------------------------------------------------------------
+-- q13
+------------------------------------------------------------------------
+SELECT `name`, cmp.date
+FROM `facility`
+INNER JOIN (
+	SELECT `facilityID` AS id, `date`
+	FROM `competition`
+	WHERE `date` >= '2000-02-04' AND `date` <= '2007-02-04'
+) AS cmp
+ON facility.id = cmp.id
+ORDER BY cmp.date ASC
+------------------------------------------------------------------------
+-- TRIGGER 1 - запрет внесения записи, если установленный тренер не тренерует по установленному спорту
+------------------------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER `before_insert_coachID`
+BEFORE INSERT ON `career`
+FOR EACH ROW IF NEW.coachID NOT IN(SELECT `id` FROM `coach` WHERE `sportID` = NEW.sportID) THEN 
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=30000;
+END IF
+$$
+DELIMITER ;
+------------------------------------------------------------------------
+-- TRIGGER 2 - запрет изменения записи, если установленный тренер не тренерует по установленному спорту
+------------------------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER `before_update_coachID`
+BEFORE UPDATE ON `career`
+FOR EACH ROW
+IF NEW.coachID NOT IN(SELECT `id` FROM `coach` WHERE `sportID` = NEW.sportID) THEN 
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=30001;
+END IF
+$$
+DELIMITER ;
