@@ -274,3 +274,29 @@ IF NEW.coachID NOT IN(SELECT `id` FROM `coach` WHERE `sportID` = NEW.sportID) TH
 END IF
 $$
 DELIMITER ;
+------------------------------------------------------------------------
+-- Хранимая процедура
+------------------------------------------------------------------------
+-- Хранимая процедура начисления зп
+DELIMITER $$  
+CREATE PROCEDURE `pay_a_salary` (IN sal INT)  
+BEGIN  
+    DECLARE isLast BOOL;
+	DECLARE aID, k INT;
+    DECLARE cur CURSOR FOR SELECT athleteID, category FROM career;	
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET isLast = FALSE;  
+    OPEN cur;  
+  
+	DELETE FROM `salary` WHERE `date` = DATE_SUB(CURRENT_DATE,INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY);
+    SET isLast = TRUE;  
+    WHILE isLast DO  
+        FETCH cur INTO aID, k;
+		INSERT INTO `salary`(`date`, `athleteID`, `salary`) VALUES(DATE_SUB(CURRENT_DATE,INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY), aID, k*sal);
+    END WHILE;  
+  
+    CLOSE cur;    
+END
+$$
+DELIMITER ;
+
+SET @p0='200'; CALL `pay_a_salary`(@p0);

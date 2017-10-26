@@ -86,11 +86,24 @@ CREATE TABLE `participation` (
   `athleteID` int(10) UNSIGNED NOT NULL,
   `competitionID` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Структура таблицы `salary`
+CREATE TABLE `salary` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `date` DATE,
+  `athleteID` int(10) UNSIGNED NOT NULL,
+  `salary` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 -- Индексы таблицы `athlete`
 ALTER TABLE `athlete`
   ADD PRIMARY KEY (`id`);
+
+-- Индексы таблицы `salary`
+ALTER TABLE `salary`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_salary_athlete` (`athleteID`);  
 
 -- Индексы таблицы `career`
 ALTER TABLE `career`
@@ -150,6 +163,10 @@ ALTER TABLE `participation`
 -- AUTO_INCREMENT для таблицы `athlete`
 ALTER TABLE `athlete`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  
+-- AUTO_INCREMENT для таблицы `salary`
+ALTER TABLE `salary`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
   
 -- AUTO_INCREMENT для таблицы `career`
 ALTER TABLE `career`
@@ -242,6 +259,11 @@ ALTER TABLE `prize`
 	ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_prize_athleteB` FOREIGN KEY (`bronzeMedalAthleteID`) REFERENCES `athlete` (`id`) 
 	ON DELETE RESTRICT ON UPDATE CASCADE;
+	
+-- Ограничения внешнего ключа таблицы `salary`
+ALTER TABLE `salary` 
+	ADD CONSTRAINT `FK_salary_athlete` FOREIGN KEY (`athleteID`) REFERENCES `athlete` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;	
+ 
 -- --------------------------------------------------------
 
 -- Триггеры `career`
@@ -365,3 +387,26 @@ INSERT INTO `participation` (`id`, `athleteID`, `competitionID`) VALUES
 (5, 3, 3),
 (6, 4, 8),
 (7, 5, 8);
+-- --------------------------------------------------------
+
+-- Хранимая процедура начисления зп
+DELIMITER $$  
+CREATE PROCEDURE `pay_a_salary` (IN sal INT)  
+BEGIN  
+    DECLARE isLast BOOL;
+	DECLARE aID, k INT;
+    DECLARE cur CURSOR FOR SELECT athleteID, category FROM career;	
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET isLast = FALSE;  
+    OPEN cur;  
+  
+	DELETE FROM `salary` WHERE `date` = DATE_SUB(CURRENT_DATE,INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY);
+    SET isLast = TRUE;  
+    WHILE isLast DO  
+        FETCH cur INTO aID, k;
+		INSERT INTO `salary`(`date`, `athleteID`, `salary`) VALUES(DATE_SUB(CURRENT_DATE,INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY), aID, k*sal);
+    END WHILE;  
+  
+    CLOSE cur;    
+END
+$$
+DELIMITER ;
