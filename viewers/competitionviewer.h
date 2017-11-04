@@ -16,6 +16,8 @@ public:
                                QList<QSqlRelation *> *relations, QWidget *parent = 0);
     ~CompetitionViewer();
     enum COLUMNS {ID, DATE, NAME, SPORT, FACILITY, SPONSOR};
+private slots:
+    void filterChanged();
 private:
     Ui::CompetitionViewer *ui;
 };

@@ -17,6 +17,8 @@ public:
                          QList<QSqlRelation *> *relations, QWidget *parent = 0);
     ~CoachViewer();
     enum COLUMNS{ID, FULL_NAME, SPORT};
+private slots:
+    void filterChanged();
 private:
     Ui::CoachViewer *ui;
 };

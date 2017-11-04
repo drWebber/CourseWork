@@ -66,8 +66,8 @@ void AbstractTableView::onTbnRemoveRow_clicked()
 
 void AbstractTableView::addStandardWidget(QGridLayout *gridLayout)
 {
-    gridLayout->addWidget(tbnAddRow, 3, 0, 1, 1);
-    gridLayout->addWidget(tbnRemoveRow, 3, 1, 1, 1);
-    gridLayout->addWidget(tableView, 4, 0, 1, 8);
+    gridLayout->addWidget(tbnAddRow, 5, 0, 1, 1);
+    gridLayout->addWidget(tbnRemoveRow, 5, 1, 1, 1);
+    gridLayout->addWidget(tableView, 6, 0, 1, 8);
 }
 
