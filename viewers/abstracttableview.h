@@ -6,6 +6,8 @@
 #include <qtableview.h>
 #include <qtoolbutton.h>
 #include <qgridlayout.h>
+#include "tools/sequenselist.h"
+#include "sql/sql.h"
 
 class AbstractTableView : public QWidget
 {
@@ -22,10 +24,13 @@ protected:
     QTableView *tableView;
     QToolButton *tbnAddRow;
     QToolButton *tbnRemoveRow;
+    SequenseList sl;
     void addStandardWidget(QGridLayout *gridLayout);
+    void setFilter(QString filterCol, Sql::condition condition = Sql::IN);
 private:
     QGridLayout *gridLayout;
     QHeaderView *header = NULL;
+    QHBoxLayout *horizontalLayout;
 };
 
 #endif // ABSTRACTTABLEVIEW_H

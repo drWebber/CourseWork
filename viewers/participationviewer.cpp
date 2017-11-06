@@ -9,6 +9,9 @@ ParticipationViewer::ParticipationViewer(QString table, QList<int> *relColumns,
 {
     ui->setupUi(this);
     addStandardWidget(ui->gridLayout);
+
+    model->setHeaderData(ATHLETE, Qt::Horizontal, "Спортсмен");
+    model->setHeaderData(COMPETITION, Qt::Horizontal, "Соревнование");
 }
 
 ParticipationViewer::~ParticipationViewer()

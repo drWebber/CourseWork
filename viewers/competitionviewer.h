@@ -18,6 +18,7 @@ public:
     enum COLUMNS {ID, DATE, NAME, SPORT, FACILITY, SPONSOR};
 private slots:
     void filterChanged();
+    void onEnableDateRange(bool enable);
 private:
     Ui::CompetitionViewer *ui;
 };

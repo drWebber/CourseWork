@@ -17,6 +17,8 @@ public:
                          QList<QSqlRelation *> *relations, QWidget *parent = 0);
     ~PrizeViewer();
     enum COLUMNS {ID, COMPETITION, GOLD_MEDAL_ATH, SILVER_MEDAL_ATH, BRONZE_MEDAL_ATH};
+private slots:
+    void onFilterChanged();
 private:
     Ui::PrizeViewer *ui;
 };

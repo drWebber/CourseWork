@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "sql/dbc.h"
 #include <qmessagebox.h>
-#include <qdebug.h>
 #include <qsqlquery.h>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,45 +8,50 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    DBC dbc;
-    dbc.connect();
-    if (!dbc.isConnected()) {
-        QMessageBox::critical(this, "Ошибка", "Ошибка соединения с базой данных");
-    }
+    resize(640, 530);
 
-    QSqlQuery q;
-    q.exec("SET character_set_client=cp1251");
-    q.exec("SET character_set_connection=UTF8");
-    q.exec("SET character_set_results=cp1251");
-    q.exec("SET character_set_database=UTF8");
+    setWindowTitle("Информационная система спортивных организация города");
+
+    dbc.connect();
+    if (!dbc.isConnected())
+        QMessageBox::critical(this, "Ошибка", "Ошибка соединения с базой данных");
+
+//    QSqlQuery q;
+//    q.exec("SET character_set_client=cp1251");
+//    q.exec("SET character_set_connection=UTF8");
+//    q.exec("SET character_set_results=cp1251");
+//    q.exec("SET character_set_database=UTF8");
 
 
     viewers = QStringList() << "actFacilityViewer" << "actAthleteViewer" << "actSportViewer"
                             << "actCoachViewer" << "actCareerViewer" << "actCompetitionViewer"
                             << "actPrizeViewer" << "actClubViewer" << "actClubCompetitionViewer"
-                            << "actParticipationViewer";
+                            << "actParticipationViewer" << "actClubSizeViewer" << "actSponsorViewer";
 
-    connect(ui->actFacilityViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actAthleteViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actSportViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actCoachViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actCareerViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actCompetitionViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actPrizeViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actClubViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actClubCompetitionViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    connect(ui->actParticipationViewer, SIGNAL(triggered(bool)),
-            this, SLOT(onMenuTriggered()));
-    resize(640, 480);
+    QList<QAction*> actions;
+    actions = QList<QAction*>() << ui->actFacilityViewer << ui->actAthleteViewer << ui->actSportViewer
+                                << ui->actCoachViewer << ui->actCareerViewer << ui->actCompetitionViewer
+                                << ui->actPrizeViewer << ui->actClubViewer << ui->actClubCompetitionViewer
+                                << ui->actParticipationViewer << ui->actClubSizeViewer<< ui->actSponsorViewer;
+    foreach (QAction *act, actions) {
+        connect(act, SIGNAL(triggered(bool)),
+                this, SLOT(onMenuTriggered()));
+    }
+
+    wgt = new QListWidget(this);
+    wgt->setIconSize(QSize(40, 40));
+    foreach(const QString& item, LIST_ITEMS) {
+        QListWidgetItem* listItem = new QListWidgetItem( item );
+        listItem->setIcon( QPixmap(":/img/images/" + item + ".png"));
+        wgt->addItem(listItem);
+    }
+    wgt->setViewMode(QListWidget::IconMode);
+    ui->gridLayout_2->addWidget(wgt);
+    connect(wgt, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(onWgtClicked(QModelIndex)));
+
+    connect(ui->actAbout, SIGNAL(triggered(bool)),
+            this, SLOT(onHelpClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -65,7 +68,26 @@ void MainWindow::onMenuTriggered()
     foreach (QObject *child, children) {
         child->deleteLater();
     }
-    switch (indx) {
+    showWidget(indx);
+}
+
+void MainWindow::onWgtClicked(QModelIndex index)
+{
+    if (!index.isValid())
+        return;
+    wgt->hide();
+    showWidget(index.row());
+}
+
+void MainWindow::onHelpClicked()
+{
+    about = new About(this);
+    about->exec();
+}
+
+void MainWindow::showWidget(int index)
+{
+    switch (index) {
     case FACILITY_VIEWER:
         fv = new FacilityViewer("facility", new QList<int>, new QList<QSqlRelation*>, ui->centralWidget);
         fv->show();
@@ -194,6 +216,15 @@ void MainWindow::onMenuTriggered()
         delete relations;
         break;
     }
+    case CLUB_SIZE_VIEWER:
+        csv = new ClubSizeViewer(ui->centralWidget);
+        csv->show();
+        setWindowTitle("Журнал \"Численность спортивных клубов\"");
+        break;
+    case SPONSOR_VIEWER:
+        snv = new SponsorViewer(ui->centralWidget);
+        snv->show();
+        setWindowTitle("Журнал \"Организаторы соревнований\"");
     default:
         break;
     }

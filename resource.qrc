@@ -3,5 +3,20 @@
         <file>images/Button-Add-icon.png</file>
         <file>images/Button-Delete-icon.png</file>
         <file>images/favicon.png</file>
+        <file>images/Виды спорта.png</file>
+        <file>images/Карьера.png</file>
+        <file>images/Клубные соревнования.png</file>
+        <file>images/Клубы.png</file>
+        <file>images/Организаторы.png</file>
+        <file>images/Победители.png</file>
+        <file>images/Сооружения.png</file>
+        <file>images/Соревнования.png</file>
+        <file>images/Спортсмены.png</file>
+        <file>images/Тренеры.png</file>
+        <file>images/Участие.png</file>
+        <file>images/Численность.png</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file>misc/style.css</file>
     </qresource>
 </RCC>
