@@ -18,7 +18,8 @@ public:
     ~AthleteViewer();
     enum COLUMNS {ID, FULL_NAME, DOB};
 private slots:
-    void filterChanged();
+    void onFilterChanged();
+    void onDataRangeEnabled(bool status);
 private:
     Ui::AthleteViewer *ui;
 };

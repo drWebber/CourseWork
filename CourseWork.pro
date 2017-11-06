@@ -27,7 +27,11 @@ SOURCES += main.cpp\
     viewers/prizeviewer.cpp \
     viewers/clubviewer.cpp \
     viewers/clubcompletitonviewer.cpp \
-    viewers/participationviewer.cpp
+    viewers/participationviewer.cpp \
+    tools/sequenselist.cpp \
+    viewers/clubsizeviewer.cpp \
+    viewers/sponsorviewer.cpp \
+    about.cpp
 
 HEADERS  += mainwindow.h \
     sql/dbc.h \
@@ -42,7 +46,11 @@ HEADERS  += mainwindow.h \
     viewers/prizeviewer.h \
     viewers/clubviewer.h \
     viewers/clubcompletitonviewer.h \
-    viewers/participationviewer.h
+    viewers/participationviewer.h \
+    tools/sequenselist.h \
+    viewers/clubsizeviewer.h \
+    viewers/sponsorviewer.h \
+    about.h
 
 FORMS    += mainwindow.ui \
     viewers/facilityviewer.ui \
@@ -54,7 +62,11 @@ FORMS    += mainwindow.ui \
     viewers/prizeviewer.ui \
     viewers/clubviewer.ui \
     viewers/clubcompletitonviewer.ui \
-    viewers/participationviewer.ui
+    viewers/participationviewer.ui \
+    viewers/clubsizeviewer.ui \
+    viewers/abstractsqlqueryviewer.ui \
+    viewers/sponsorviewer.ui \
+    about.ui
 
 RESOURCES += \
     resource.qrc

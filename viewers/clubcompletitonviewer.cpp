@@ -9,6 +9,12 @@ ClubCompletitonViewer::ClubCompletitonViewer(QString table, QList<int> *relColum
 {
     ui->setupUi(this);
     addStandardWidget(ui->gridLayout);
+    model->setHeaderData(DATE, Qt::Horizontal, "Дата");
+    model->setHeaderData(HOME_CLUB, Qt::Horizontal, "Дом. клуб");
+    model->setHeaderData(AWAY_CLUB, Qt::Horizontal, "Прин. клуб");
+    model->setHeaderData(SPORT, Qt::Horizontal, "Вид спорта");
+    model->setHeaderData(FACILITY, Qt::Horizontal, "Сооружение");
+    model->setHeaderData(SPONSOR, Qt::Horizontal, "Организатор");
 }
 
 ClubCompletitonViewer::~ClubCompletitonViewer()

@@ -66,8 +66,28 @@ void AbstractTableView::onTbnRemoveRow_clicked()
 
 void AbstractTableView::addStandardWidget(QGridLayout *gridLayout)
 {
-    gridLayout->addWidget(tbnAddRow, 5, 0, 1, 1);
-    gridLayout->addWidget(tbnRemoveRow, 5, 1, 1, 1);
+    horizontalLayout = new QHBoxLayout();
+
+    horizontalLayout->addWidget(tbnAddRow);
+    horizontalLayout->addWidget(tbnRemoveRow);
+    gridLayout->addLayout(horizontalLayout, 5, 0, 1, 1);
     gridLayout->addWidget(tableView, 6, 0, 1, 8);
+}
+
+void AbstractTableView::setFilter(QString filterCol, Sql::condition condition)
+{
+    QStringList idList = sl.getIntersectionList();
+    if (!idList.isEmpty()) {
+        QString sqlOperator = " IN";
+        if (condition == Sql::NOT_IN) {
+            sqlOperator = " NOT IN";
+        }
+        model->setFilter(QString(filterCol + sqlOperator + "(%1)").arg(idList.join(',')));
+    } else if(idList.isEmpty() && sl.count() > 0) {
+        model->setFilter(filterCol + " = '-1'");
+    } else {
+        model->setFilter("");
+    }
+    sl.clear();
 }
 

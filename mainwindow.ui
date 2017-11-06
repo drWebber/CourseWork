@@ -15,58 +15,40 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Соревнования&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Спортсмены&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Призеры&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Виды спорта&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Тренеры&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Сооружения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Клубы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <item row="1" column="1">
+     <layout class="QGridLayout" name="gridLayout_2"/>
+    </item>
+    <item row="0" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
@@ -83,31 +65,52 @@
     <property name="title">
      <string>Файл</string>
     </property>
-    <addaction name="action"/>
+    <addaction name="actExit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
      <string>Документы</string>
     </property>
-    <addaction name="actSportViewer"/>
-    <addaction name="actAthleteViewer"/>
-    <addaction name="actCoachViewer"/>
-    <addaction name="actCareerViewer"/>
+    <widget class="QMenu" name="menu_3">
+     <property name="title">
+      <string>Соревнования</string>
+     </property>
+     <addaction name="actCompetitionViewer"/>
+     <addaction name="actPrizeViewer"/>
+     <addaction name="actParticipationViewer"/>
+     <addaction name="actSponsorViewer"/>
+    </widget>
+    <widget class="QMenu" name="menu_4">
+     <property name="title">
+      <string>Клубы</string>
+     </property>
+     <addaction name="actClubViewer"/>
+     <addaction name="actClubCompetitionViewer"/>
+     <addaction name="actClubSizeViewer"/>
+    </widget>
+    <widget class="QMenu" name="menu_5">
+     <property name="title">
+      <string>Спортсмены</string>
+     </property>
+     <addaction name="actAthleteViewer"/>
+     <addaction name="actCareerViewer"/>
+    </widget>
     <addaction name="actFacilityViewer"/>
-    <addaction name="actCompetitionViewer"/>
-    <addaction name="actPrizeViewer"/>
-    <addaction name="actClubViewer"/>
-    <addaction name="actClubCompetitionViewer"/>
-    <addaction name="actParticipationViewer"/>
+    <addaction name="menu_5"/>
+    <addaction name="actSportViewer"/>
+    <addaction name="actCoachViewer"/>
+    <addaction name="menu_3"/>
+    <addaction name="menu_4"/>
    </widget>
-   <widget class="QMenu" name="menu_3">
+   <widget class="QMenu" name="menu_6">
     <property name="title">
-     <string>Режим редактирования</string>
+     <string>Справка</string>
     </property>
+    <addaction name="actAbout"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
+   <addaction name="menu_6"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -118,19 +121,19 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="action">
+  <action name="actExit">
    <property name="text">
     <string>Выход</string>
    </property>
   </action>
   <action name="actFacilityViewer">
    <property name="text">
-    <string>Спортивные сооружения</string>
+    <string>Сооружения</string>
    </property>
   </action>
   <action name="actAthleteViewer">
    <property name="text">
-    <string>Спортсмены</string>
+    <string>Список спортсменов</string>
    </property>
   </action>
   <action name="actSportViewer">
@@ -140,12 +143,12 @@
   </action>
   <action name="actCareerViewer">
    <property name="text">
-    <string>Спортивная карьера</string>
+    <string>Карьера</string>
    </property>
   </action>
   <action name="actCompetitionViewer">
    <property name="text">
-    <string>Соревнования</string>
+    <string>Список соревнования</string>
    </property>
   </action>
   <action name="actCoachViewer">
@@ -155,26 +158,58 @@
   </action>
   <action name="actPrizeViewer">
    <property name="text">
-    <string>Победители соревнований</string>
+    <string>Победители</string>
    </property>
   </action>
   <action name="actClubViewer">
    <property name="text">
-    <string>Спортивные клубы</string>
+    <string>Список клубов</string>
    </property>
   </action>
   <action name="actClubCompetitionViewer">
    <property name="text">
-    <string>Клубные соревнования</string>
+    <string>Соревнования</string>
    </property>
   </action>
   <action name="actParticipationViewer">
    <property name="text">
-    <string>Участие в соревнованиях</string>
+    <string>Участники</string>
+   </property>
+  </action>
+  <action name="actClubSizeViewer">
+   <property name="text">
+    <string>Численность</string>
+   </property>
+  </action>
+  <action name="actSponsorViewer">
+   <property name="text">
+    <string>Организаторы</string>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>О программе</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actExit</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

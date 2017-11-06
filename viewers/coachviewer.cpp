@@ -16,8 +16,12 @@ CoachViewer::CoachViewer(QString table, QList<int> *relColumns,
     model->setHeaderData(FULL_NAME, Qt::Horizontal, "Фио");
     model->setHeaderData(SPORT, Qt::Horizontal, "Вид спорта");
 
-    ui->cbAthlete->addItems(Sql::getDistinctValues("athlete", "full_name"));
-    connect(ui->cbAthlete, SIGNAL(currentIndexChanged(int)),
+    ui->cmbAthlete->addItems(Sql::getDistinctValues("athlete", "full_name"));
+    connect(ui->cmbAthlete, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(filterChanged()));
+
+    ui->cmbSport->addItems(Sql::getDistinctValues("sport", "name"));
+    connect(ui->cmbSport, SIGNAL(currentIndexChanged(int)),
             this, SLOT(filterChanged()));
 }
 
@@ -28,18 +32,26 @@ CoachViewer::~CoachViewer()
 
 void CoachViewer::filterChanged()
 {
-    QString athlete = ui->cbAthlete->currentText();
+    QString athlete = ui->cmbAthlete->currentText();
+    QString sport = ui->cmbSport->currentText();
     if (athlete != "Все") {
         QString q("SELECT `coachID` "
                   "FROM `career` "
                   "WHERE `athleteID` = "
                     "(SELECT `id` "
                     "FROM `athlete` "
-                    "WHERE `full_name` = '" + athlete + "')");
-        QString idLine = Sql::getValuesLine(q, QStringList());
-        if (!idLine.isEmpty())
-            model->setFilter(QString("coach.`id` IN(%1)").arg(idLine));
-    } else {
-        model->setFilter("");
+                    "WHERE `full_name` = :athlete)");
+        sl.append(Sql::getIdList(q, QStringList(athlete)));
     }
+    if (sport != "Все") {
+        QString q("SELECT ch.`id` "
+                  "FROM `coach` AS ch "
+                  "WHERE ch.`sportID` = ("
+                    "SELECT `id` "
+                    "FROM `sport` "
+                    "WHERE `name` = :sport"
+                  ")");
+        sl.append(Sql::getIdList(q, QStringList(sport)));
+    }
+    setFilter("coach.`id`");
 }

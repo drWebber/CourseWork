@@ -8,6 +8,8 @@ ClubViewer::ClubViewer(QString table, QList<int> *relColumns,
 {
     ui->setupUi(this);
     addStandardWidget(ui->gridLayout);
+    model->setHeaderData(NAME, Qt::Horizontal, "Название");
+    model->setHeaderData(SPORT, Qt::Horizontal, "Вид спорта");
 }
 
 ClubViewer::~ClubViewer()
