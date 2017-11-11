@@ -16,11 +16,11 @@ MainWindow::MainWindow(QWidget *parent) :
     if (!dbc.isConnected())
         QMessageBox::critical(this, "Ошибка", "Ошибка соединения с базой данных");
 
-//    QSqlQuery q;
-//    q.exec("SET character_set_client=cp1251");
-//    q.exec("SET character_set_connection=UTF8");
-//    q.exec("SET character_set_results=cp1251");
-//    q.exec("SET character_set_database=UTF8");
+    QSqlQuery q;
+    q.exec("SET character_set_client=cp1251");
+    q.exec("SET character_set_connection=UTF8");
+    q.exec("SET character_set_results=cp1251");
+    q.exec("SET character_set_database=UTF8");
 
 
     viewers = QStringList() << "actFacilityViewer" << "actAthleteViewer" << "actSportViewer"
